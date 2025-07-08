@@ -245,6 +245,21 @@ The system contains default values for every parameter.  These can be over-ridde
 - Environment variables
 - Settings stored in `dc_project` table
 
+# How to build this fork
+
+I discovered a number of problems deploying this as per the source.
+- It was hardwired to publish using the native architecture (meaning, no amd64 image)
+- It only published the thin JAR (see maven-shade-plugin in pom.xml)
+- It did not have the Postgresql driver wired into the JAR
+
+These shortcoming have been addressed and a compatible image can be produced as follows
+
+```declarative
+export DOCKERCMD=docker CONTAINER=amcginlay/pgcompare SYSTEMARCH=x86_64
+make all
+```
+
 # License
 
 **pgCompare** is licensed under the [Apache 2.0 license](LICENSE.md).
+

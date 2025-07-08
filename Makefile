@@ -23,7 +23,7 @@ CONTAINER ?= brianpace/$(PROGRAM)
 DATE ?= $(shell date +%Y%m%d)
 BASE_REGISTRY ?= registry.access.redhat.com/ubi8
 BASE_IMAGE ?= ubi-minimal
-SYSTEMARCH = $(shell uname -m)
+SYSTEMARCH ?= $(shell uname -m)
 MAVEN_VER ?= 3.9.9
 
 ifeq ($(SYSTEMARCH), x86_64)
@@ -69,7 +69,7 @@ multi-stage-docker: set-multi-stage docker-common ## Generate a BASE_IMAGE conta
 
 docker-common:  ##      Build the Docker image
 	@echo "Building Docker image..."
-	$(DOCKERCMD) build -f Dockerfile \
+	$(DOCKERCMD) build --platform linux/$(TARGETARCH) -f Dockerfile \
 	        --target $(BUILDTYPE) \
     		--build-arg BASE_IMAGE=$(BASE_IMAGE) \
     		--build-arg BASE_REGISTRY=$(BASE_REGISTRY) \
